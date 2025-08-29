@@ -11,7 +11,6 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { AudioVideoCallProvider } from "../context/AudioVideoCallContext";
 import PageLoader from "./common/page_loader/PageLoader";
 import VideoTutorial from "./Pages/quick_assist/video_tutorial/VideoTutorial";
-import Dashboard from "./Pages/dashboard/Dashboard";
 import Login from "./Pages/auth/Login";
 import { createTheme, MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
@@ -45,6 +44,7 @@ import { SettledClaimDetail } from "./Pages/manage_claim/settled_claim/sections/
 import { ClaimTransaction } from "./Pages/transaction_history/claim_transaction/ClaimTransaction";
 import { PageAudioVideoCall } from "./common/PageAudioVideoCall";
 import { ViewAccessLog } from "./Pages/quick_assist/view_access_log/ViewAccessLog";
+import { Dashboard } from "./Pages/dashboard/Dashboard";
 
 const App = () => {
   const queryClient = new QueryClient();
