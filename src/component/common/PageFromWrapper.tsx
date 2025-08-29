@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Stack, Group, Alert, Button, Text } from "@mantine/core";
 import { IconAlertCircle, IconCancel, IconLoader, IconPlus } from "@tabler/icons-react";
 import type { UseFormReturnType } from "@mantine/form";
@@ -70,7 +70,7 @@ export const FormWrapper = <T extends Record<string, any>>({
   submitButtonIcon = <IconPlus size={16} />
 }: FormWrapperProps<T>) => {
   return (
-    <>
+    <Fragment>
       {error && (
         <Alert icon={<IconAlertCircle size={16} />} color="red" variant="filled" radius="md" >{error}</Alert>
       )}
@@ -98,6 +98,6 @@ export const FormWrapper = <T extends Record<string, any>>({
           </Group>
         </Stack>
       </form>
-    </>
+    </Fragment>
   );
 };

@@ -135,19 +135,11 @@ export const SettledClaim = () => {
     }
   ]
   const settledClaimList = useMemo(() => {
-    let filtered = [...allSettledClaims];
-    if (filterState.filter.statusFilter && filterState.filter.statusFilter !== 'all') {
-      filtered = filtered.filter(dept =>
-        dept.status.toLowerCase() === filterState.filter.statusFilter.toLowerCase()
-      );
-    }
-    if (filterState.filter.claimType && filterState.filter.claimType !== 'all') {
-      filtered = filtered.filter(dept =>
-        dept.claimType.toLowerCase() === filterState.filter.claimType.toLowerCase()
-      );
-    }
-    return filtered;
-  }, [allSettledClaims, filterState.filter.statusFilter, filterState.filter.claimType]);
+    let rows = [...allSettledClaims];
+    const role = (filterState.filter.claimFilter || "all").toLowerCase();
+    if (role !== "all") rows = rows.filter(r => r.status.toLowerCase() === role);
+    return rows;
+  }, [allSettledClaims, filterState.filter]);
 
   const topBarAndFilter = {
     type: loaderData.type,

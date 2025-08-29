@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 interface SelectBoxprops {
   label: string;
@@ -6,7 +6,7 @@ interface SelectBoxprops {
 
 const SelectBox: React.FC<SelectBoxprops> = ({ label }) => {
   return (
-    <>
+    <Fragment>
       <label className="form-label" htmlFor="exampleFormControlSelect7">
         {label}
       </label>
@@ -18,7 +18,7 @@ const SelectBox: React.FC<SelectBoxprops> = ({ label }) => {
         <option>test value</option>
         <option>test value</option>
       </select>
-    </>
+    </Fragment>
   );
 };
 

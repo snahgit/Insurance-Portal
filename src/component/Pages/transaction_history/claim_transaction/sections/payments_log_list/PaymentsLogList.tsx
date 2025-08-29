@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { Fragment, useRef } from "react";
 import { ActionIcon, Badge, Card, Group, Table, Text, Tooltip, Box, Menu, NumberFormatter } from "@mantine/core";
 import { IconDots, IconInfoCircle, IconPigMoney, IconUser, IconViewfinder, IconViewportWide } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -108,7 +108,7 @@ const PaymentsLogList = (props: { dataPass: any }) => {
   };
 
   return (
-    <>
+    <Fragment>
       <PageDrawer
         onOpenReady={(api) => {
           drawerApiRef.current = api;
@@ -238,7 +238,7 @@ const PaymentsLogList = (props: { dataPass: any }) => {
                             <Table.Td className="text-center p-4">{val.patientName}</Table.Td>
                             <Table.Td className="text-center p-4">{val.physicianName}</Table.Td>
                             <Table.Td className="text-center p-4"><NumberFormatter prefix="$ " value={val.amount} thousandSeparator /></Table.Td>
-                            <Table.Td className="text-center p-4"><>{getStatusColor(val.status)}</></Table.Td>
+                            <Table.Td className="text-center p-4">{getStatusColor(val.status)}</Table.Td>
                             <Table.Td className="p-4">
                               <Menu
                                 shadow="md"
@@ -302,7 +302,7 @@ const PaymentsLogList = (props: { dataPass: any }) => {
           }} />
         )}
       </Card.Section>
-    </>
+    </Fragment>
   );
 };
 export default React.memo(PaymentsLogList);

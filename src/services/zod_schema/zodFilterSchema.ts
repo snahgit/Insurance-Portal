@@ -18,6 +18,7 @@ export function filterSchema() {
         propertyFilter: z.string().optional(),
         stateFilter: z.string().optional(),
         dateFilter: z.string().optional(),
+        claimFilter: z.string().optional(),
     });
 }
 export type FilterFormType = {
@@ -29,5 +30,6 @@ export type FilterFormType = {
     textFilter?: string;
     propertyFilter?: string;
     stateFilter?: string;
+    claimFilter?: string;
     dateFilter?: string | null;
 } & z.infer<typeof filterSchema>;

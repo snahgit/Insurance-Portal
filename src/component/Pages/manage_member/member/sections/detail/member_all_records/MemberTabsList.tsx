@@ -229,7 +229,7 @@ export const MemberTabsList = () => {
                                 return (
                                     <Tabs.Panel key={tab.value} value={tab.value} className="p-0">
                                         <Card withBorder shadow="sm" className="rounded-xl bg-white/80 dark:bg-slate-900/60 backdrop-blur-xl border-t border-slate-200/60 dark:border-slate-700/60">
-                                            <PageTopBarAndFilter dataPass={{ topBarAndFilter: tab.topBarConfig }} />
+                                            {activeTab === tab.value && <PageTopBarAndFilter dataPass={{ topBarAndFilter: tab.topBarConfig }} />}
                                             <ComponentToRender />
                                             <PagePagination dataPass={{ total: 10 }} />
                                         </Card>

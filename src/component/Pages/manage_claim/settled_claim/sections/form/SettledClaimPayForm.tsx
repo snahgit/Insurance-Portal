@@ -1,4 +1,4 @@
-import { Alert, Box, Card, Grid } from "@mantine/core";
+import { Alert, Box, Card, Grid, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { FormField, FormWrapper } from "../../../../../common/PageFromWrapper";
 import { useFormHelper } from "../../../../../../services/helperService";
@@ -57,6 +57,11 @@ export const SettledClaimPayForm = (props: { dataPass: any }) => {
                         >
                           Claim amount will be deducted from account. You need to choose any one account from where you want to settle the claim amount.
                         </Alert>
+                      </Grid.Col>
+                      <Grid.Col span={{ base: 12 }} className="mb-4">
+                        <Box>
+                          <Text fw={500} ta="center"><b>Paying to:</b> Golden Pharmacy</Text>
+                        </Box>
                       </Grid.Col>
                       <Grid.Col span={{ base: 12 }}>
                         <FormField label="Select Account/Wallet" required >

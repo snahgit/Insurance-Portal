@@ -137,6 +137,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
       textFilter: pageTopBarAndFilter.filter.textFilter || "",
       propertyFilter: pageTopBarAndFilter.filter.propertyFilter || "",
       stateFilter: pageTopBarAndFilter.filter.stateFilter || "",
+      claimFilter: pageTopBarAndFilter.filter.claimFilter || "",
       dateFilter: pageTopBarAndFilter.filter.dateFilter || null,
     },
     validationSchema: filterObject,
@@ -153,6 +154,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
     dispatch(setFilter({ field: "propertyFilter", value: form.values.propertyFilter || "" }));
     dispatch(setFilter({ field: "stateFilter", value: form.values.stateFilter || "" }));
     dispatch(setFilter({ field: "dateFilter", value: form.values.dateFilter || null }));
+    dispatch(setFilter({ field: "claimFilter", value: form.values.claimFilter || null }));
   };
 
   const handleClearFilter = () => {
@@ -331,6 +333,20 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                   )
                 }
                 {
+                  (["settledClaim"].includes(mergedTopBarAndFilter.type)) && (
+                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                      <PageSelect
+                        placeholder="Filter by claim"
+                        data={[CONSTANT.claim.pending, CONSTANT.claim.underReview, CONSTANT.claim.processing, CONSTANT.claim.approved, CONSTANT.claim.rejected, CONSTANT.claim.returned, CONSTANT.claim.paid, CONSTANT.claim.completed]}
+                        className="min-w-32 text-gray-800 dark:text-gray-200"
+                        {...form.getInputProps("claimFilter")}
+                        value={form.values.claimFilter || null}
+                        clearable
+                      />
+                    </Grid.Col>
+                  )
+                }
+                {
                   (["schedule"].includes(mergedTopBarAndFilter.type)) && (
                     <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
                       <PageSelect
@@ -451,7 +467,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                     </Grid.Col>
                   )}
                 {mergedTopBarAndFilter.type == "appointment" && (
-                  <>
+                  <Fragment>
                     <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
                       <DatePickerInput
                         type="range"
@@ -469,7 +485,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                         clearable
                       />
                     </Grid.Col>
-                  </>
+                  </Fragment>
                 )}
 
                 {(
@@ -509,7 +525,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                     </Grid.Col>
                   )}
                 {mergedTopBarAndFilter.type === "logs" && (
-                  <>
+                  <Fragment>
                     <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
                       <TextInput
                         placeholder="Filter by Accessed by"
@@ -527,7 +543,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                         value={pageTopBarAndFilter.filter.email}
                       />
                     </Grid.Col>
-                  </>
+                  </Fragment>
                 )} */}
                 <Grid.Col span={{ base: 12, lg: 3, sm: 12 }} className="gap-2">
                   <Group>

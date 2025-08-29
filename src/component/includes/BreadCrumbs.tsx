@@ -1,4 +1,5 @@
 import { Breadcrumbs, Anchor, Box } from "@mantine/core";
+import { Fragment } from "react/jsx-runtime";
 
 interface BreadcrumbItem {
   title: string;
@@ -16,7 +17,7 @@ export const Breadcrumb = (props: { dataPass?: BreadcrumbConfig; }) => {
   const { pageTitle, items } = props.dataPass || {};
 
   return (
-    <>
+    <Fragment>
       <Box className="mb-3 py-3">
         <Box className="pb-2">
           <h3 className="text-[27px] font-bold mb-0 text-color-blue dark:text-gray-200">
@@ -43,6 +44,6 @@ export const Breadcrumb = (props: { dataPass?: BreadcrumbConfig; }) => {
           </Breadcrumbs>
         </Box>
       </Box>
-    </>
+    </Fragment>
   );
 };

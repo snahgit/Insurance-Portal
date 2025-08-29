@@ -1,6 +1,6 @@
 import { ActionIcon, Card, Group, Table, Text, Tooltip, Box, Menu, } from "@mantine/core";
 import { IconDetails, IconDots, IconEdit } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../../../redux/store";
 import { setPagination } from "../../../../../../redux/slices/pagePaginationSlice";
@@ -95,7 +95,7 @@ export const ReportList = (props: { dataPass: any }) => {
     requireSecurityCheck(originalAddAction, type);
   };
   return (
-    <>
+    <Fragment>
       <Card.Section className="p-4">
         {
           currentData.length > 0 ? (
@@ -269,6 +269,6 @@ export const ReportList = (props: { dataPass: any }) => {
           }} />
           )}
       </Card.Section>
-    </>
+    </Fragment>
   );
 };

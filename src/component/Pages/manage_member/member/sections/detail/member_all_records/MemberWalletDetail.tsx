@@ -138,7 +138,8 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
                     },
                     component: <MemberAddFundForm dataPass={{ if: "1", snahId: 'SNAH236589', name: "John Doe" }} />,
                     title: "Add Fund To Wallet",
-                }} />
+                }}
+            />
             <Container size="md" className="py-6">
                 <Box className="flex justify-center mb-8">
                     <Card

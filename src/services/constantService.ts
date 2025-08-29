@@ -31,5 +31,15 @@ export const CONSTANT = {
     state: {
         open: 'Open',
         close: 'Close'
+    },
+    claim: {
+        pending: 'Pending',
+        underReview: 'Under Review',
+        processing: 'Processing',
+        approved: 'Approved',
+        rejected: 'Rejected',
+        paid: 'Paid',
+        returned: 'Returned',
+        completed: 'Completed'
     }
 };

@@ -1,6 +1,6 @@
 import { Fragment, useRef } from "react";
-import { ActionIcon, Badge, Card, Group, Table, Text, Tooltip, Box, Menu, Avatar, NumberFormatter, Button } from "@mantine/core";
-import { IconCalendar, IconDetails, IconDots, IconMoneybag, IconPaywall, IconStatusChange } from "@tabler/icons-react";
+import { ActionIcon, Badge, Card, Group, Table, Text, Tooltip, Box, Menu, Avatar, NumberFormatter, Button, Alert } from "@mantine/core";
+import { IconAlertCircle, IconCalendar, IconDetails, IconDots, IconMoneybag, IconPaywall, IconStatusChange } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../../../../redux/store";
@@ -259,19 +259,7 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                   </Text>
                                 </Box>
                               </Card.Section>
-                              <Card.Section className="p-4 space-y-3 bg-white-100 dark:bg-gray-900 bg-opacity-30 dark:bg-opacity-50">
-                                <div className="flex justify-center space-x-2">
-                                  <IconCalendar size={16} className="text-blue-500" />
-                                  <Text size="sm" className="font-semibold">
-                                    {moment(val.claimDate).format("MM-DD-YYYY")}
-                                  </Text>
-                                </div>
-                                <div className="flex justify-center space-x-2">
-                                  <IconMoneybag size={16} className="text-blue-500" />
-                                  <Text size="sm" className="font-semibold">
-                                    <NumberFormatter prefix="$ " value={val.amount} />
-                                  </Text>
-                                </div>
+                              <Card.Section className="p-4 space-y-3 bg-white-100 dark:bg-gray-900 bg-opacity-30 dark:bg-opacity-50 h-full">
                                 <div className="flex flex-row justify-center gap-2">
                                   <Badge
                                     variant="light"
@@ -289,6 +277,24 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                     {val.status}
                                   </Badge>
                                 </div>
+                                <div className="flex justify-center space-x-2">
+                                  <IconCalendar size={16} className="text-blue-500" />
+                                  <Text size="sm" className="font-semibold">
+                                    {moment(val.claimDate).format("MM-DD-YYYY")}
+                                  </Text>
+                                </div>
+                                <div className="flex justify-center space-x-2">
+                                  <IconMoneybag size={16} className="text-blue-500" />
+                                  <Text size="sm" className="font-semibold">
+                                    <NumberFormatter prefix="$ " value={val.amount} />
+                                  </Text>
+                                </div>
+                                {val.status == "Rejected" && (
+                                  <Alert variant="light" color="cyan" title="Reason of rejected" icon={<IconAlertCircle size={16} />}>Document not match</Alert>
+                                )}
+                                {val.status == "Returned" && (
+                                  <Alert variant="light" color="pink" title="Reason of returned" icon={<IconAlertCircle size={16} />}>Patient name is not match</Alert>
+                                )}
                               </Card.Section>
                               <Card.Section className="p-3 border-t rounded-b-xl bg-blue-100 dark:bg-gray-700 bg-opacity-30 dark:bg-opacity-50">
                                 <Group justify="center" gap="xs">
@@ -347,17 +353,17 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                         <Menu.Dropdown className="border border-gray-200 dark:border-gray-700 shadow-lg dark:bg-gray-800">
                                           <Menu.Label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Select Status</Menu.Label>
                                           {val.status === 'Under Review' && (
-                                            <>
+                                            <Fragment>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Processing'); }}>Processing</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Returned'); }}>Returned</Menu.Item>
-                                            </>
+                                            </Fragment>
                                           )}
                                           {val.status === 'Processing' && (
-                                            <>
+                                            <Fragment>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Approved'); }}>Approved</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
-                                            </>
+                                            </Fragment>
                                           )}
                                           {val.status === 'Approved' && (
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Paid'); }}>Paid</Menu.Item>
@@ -366,7 +372,7 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Completed'); }}>Completed</Menu.Item>
                                           )}
                                           {!['Under Review', 'Processing', 'Approved', 'Paid'].includes(val.status) && (
-                                            <>
+                                            <Fragment>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Pending'); }}>Pending</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Under Review'); }}>Under Review</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Processing'); }}>Processing</Menu.Item>
@@ -375,7 +381,7 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Paid'); }}>Paid</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Returned'); }}>Returned</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Completed'); }}>Completed</Menu.Item>
-                                            </>
+                                            </Fragment>
                                           )}
                                         </Menu.Dropdown>
                                       </Menu>
@@ -471,17 +477,17 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                           <Menu.Dropdown className="border border-gray-200 dark:border-gray-700 shadow-lg dark:bg-gray-800">
                                             <Menu.Label className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Select Status</Menu.Label>
                                             {val.status === 'Under Review' && (
-                                              <>
+                                              <Fragment>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Processing'); }}>Processing</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Returned'); }}>Returned</Menu.Item>
-                                              </>
+                                              </Fragment>
                                             )}
                                             {val.status === 'Processing' && (
-                                              <>
+                                              <Fragment>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Approved'); }}>Approved</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
-                                              </>
+                                              </Fragment>
                                             )}
                                             {val.status === 'Approved' && (
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Paid'); }}>Paid</Menu.Item>
@@ -490,7 +496,7 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Completed'); }}>Completed</Menu.Item>
                                             )}
                                             {!['Under Review', 'Processing', 'Approved', 'Paid'].includes(val.status) && (
-                                              <>
+                                              <Fragment>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Pending'); }}>Pending</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Under Review'); }}>Under Review</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Processing'); }}>Processing</Menu.Item>
@@ -499,7 +505,7 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Paid'); }}>Paid</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Returned'); }}>Returned</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Completed'); }}>Completed</Menu.Item>
-                                              </>
+                                              </Fragment>
                                             )}
                                           </Menu.Dropdown>
                                         </Menu>

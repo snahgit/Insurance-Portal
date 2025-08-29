@@ -159,6 +159,10 @@ export const messages = {
         providerId: "Please provide Provider ID",
         endYear: "Please provide End Year",
       },
+      walletWithdraw: {
+        bank: "Please select Bank",
+        amount: "Please provide Amount",
+      },
       certification: {
         date: "Please provide Certification Date",
         document: "Please upload Certification Document",
@@ -544,6 +548,10 @@ export const messages = {
         startDate: "يرجى تقديم تاريخ البدء",
         providerId: "يرجى تقديم معرف المزود",
         endYear: "يرجى تقديم تاريخ الانتهاء",
+      },
+      walletWithdraw: {
+        bank: "يرجى اختيار البنك",
+        amount: "يرجى تقديم المبلغ",
       },
       certification: {
         date: "يرجى تقديم تاريخ الشهادة",

@@ -1,13 +1,15 @@
 import { Fragment } from "react/jsx-runtime";
-import { Box, Card, Text, Group, Stack, Badge, ActionIcon, ScrollArea, Divider, Container } from "@mantine/core";
+import { Box, Card, Text, Group, Stack, Badge, ActionIcon, ScrollArea, Divider, Container, Button, Tooltip } from "@mantine/core";
 import { IconCreditCard, IconEye, IconEyeOff, IconArrowUp, IconArrowDown } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { PageDateRangePicker, PageSelect } from "../../../common/PageInput";
+import { PageModal } from "../../../common/PageModal";
+import { ProfileWalletWithdrawForm } from "../form/ProfileWalletWithdrawForm";
 
 export const ProfileWallet = (__props: { dataPass: any }) => {
   // const { id, isEditProfileActive } = props.dataPass;
   const [showBalance, setShowBalance] = useState(true);
-  // const modalApiRef = useRef<{ open: () => void } | null>(null);
+  const modalApiRef = useRef<{ open: () => void } | null>(null);
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>(() => {
     const now = new Date();
     const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -71,28 +73,21 @@ export const ProfileWallet = (__props: { dataPass: any }) => {
   const filteredTransactions = useMemo(() => {
     return transactions.filter(transaction => {
       const transactionDate = new Date(transaction.date);
-
-      // Check date range filter
       let isInDateRange = true;
       if (dateRange[0] || dateRange[1]) {
         let startDate = null;
         let endDate = null;
-
         if (dateRange[0]) {
           const start = new Date(dateRange[0]);
           startDate = new Date(start.getFullYear(), start.getMonth(), start.getDate());
         }
-
         if (dateRange[1]) {
           const end = new Date(dateRange[1]);
           endDate = new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23, 59, 59);
         }
-
         isInDateRange = (!startDate || transactionDate >= startDate) &&
           (!endDate || transactionDate <= endDate);
       }
-
-      // Check transaction type filter
       const matchesType = !transactionTypeFilter || transactionTypeFilter === '' ||
         transaction.for.toLowerCase().includes(transactionTypeFilter.toLowerCase());
 
@@ -114,15 +109,31 @@ export const ProfileWallet = (__props: { dataPass: any }) => {
   const netAmount = totalAmounts.credit - totalAmounts.debit;
 
 
-  // const handleModal = () => {
-  //   // const originalAddAction = () => {
-  //   setTimeout(() => modalApiRef.current?.open?.(), 0);
-  //   // };
-  //   // requireSecurityCheck(originalAddAction, "Edit");
-  // };
+  const handleModal = () => {
+    // const originalAddAction = () => {
+    setTimeout(() => modalApiRef.current?.open?.(), 0);
+    // };
+    // requireSecurityCheck(originalAddAction, "Edit");
+  };
 
   return (
     <Fragment>
+      <PageModal
+        onOpenReady={(api) => {
+          modalApiRef.current = api;
+        }}
+        dataPass={{
+          modalConfig: {
+            size: "md",
+            radius: "md",
+            padding: "xl",
+            className: "overflow-y-auto",
+            centered: true,
+            zIndex: 300,
+          },
+          component: <ProfileWalletWithdrawForm dataPass={{ id: 1 }} />,
+          title: "Withdraw Funds From Wallet",
+        }} />
       <Container size="md" className="py-6">
         <Box className="flex justify-center mb-8">
           <Card
@@ -138,13 +149,9 @@ export const ProfileWallet = (__props: { dataPass: any }) => {
             <Stack justify="space-between" className="h-full relative z-10">
               <Group justify="space-between" align="flex-start">
                 <Box>
-                  <Text size="sm" className="text-white/80 font-medium">
-                    Available Balance
-                  </Text>
+                  <Text size="sm" className="text-white/80 font-medium">Available Balance</Text>
                   <Group align="center" gap="xs">
-                    <Text size="xl" fw={700} className="text-white">
-                      {showBalance ? '$100' : '****'}
-                    </Text>
+                    <Text size="xl" fw={700} className="text-white">{showBalance ? '$100' : '****'}</Text>
                     <ActionIcon
                       variant="subtle"
                       size="sm"
@@ -155,34 +162,22 @@ export const ProfileWallet = (__props: { dataPass: any }) => {
                     </ActionIcon>
                   </Group>
                 </Box>
-                <Text fw={700} className="text-white text-lg">
-                  SNAH
-                </Text>
+                <Text fw={700} className="text-white text-lg">SNAH</Text>
               </Group>
               <Box>
-                <Text fw={600} className="text-white text-lg tracking-wide">
-                  UC DAVIS MEDICAL FACILITY
-                </Text>
+                <Text fw={600} className="text-white text-lg tracking-wide">UC DAVIS MEDICAL FACILITY</Text>
               </Box>
               <Group justify="space-between" align="flex-end">
                 <Box>
                   <Group align="center" gap="xs">
                     <IconCreditCard size={16} className="text-white/80" />
-                    <Text size="sm" className="text-white/80">
-                      Account Number
-                    </Text>
+                    <Text size="sm" className="text-white/80">Account Number</Text>
                   </Group>
-                  <Text fw={500} className="text-white font-mono">
-                    **** **** **** 7995
-                  </Text>
+                  <Text fw={500} className="text-white font-mono">**** **** **** 7995</Text>
                 </Box>
                 <Box className="text-right">
-                  <Text size="xs" className="text-white/80">
-                    Expiration Date
-                  </Text>
-                  <Text fw={500} className="text-white">
-                    10/28
-                  </Text>
+                  <Text size="xs" className="text-white/80">Expiration Date</Text>
+                  <Text fw={500} className="text-white">10/28</Text>
                 </Box>
               </Group>
             </Stack>
@@ -190,7 +185,7 @@ export const ProfileWallet = (__props: { dataPass: any }) => {
         </Box>
         <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700" radius="md" p="xl">
           <Stack gap="lg">
-            <Group gap="md" align="flex-end">
+            <Group gap="sm" align="flex-end" justify="center">
               <Box>
                 <Text size="sm" fw={500} mb={5}>Date Range</Text>
                 <PageDateRangePicker
@@ -216,6 +211,11 @@ export const ProfileWallet = (__props: { dataPass: any }) => {
                   clearable
                   className="min-w-40"
                 />
+              </Box>
+              <Box>
+                <Tooltip label="Withdraw your balance">
+                  <Button variant="filled" color="blue" onClick={handleModal}>Withdraw</Button>
+                </Tooltip>
               </Box>
             </Group>
           </Stack>

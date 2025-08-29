@@ -1,9 +1,10 @@
 import { Text } from "@mantine/core";
 import { IconImageInPicture } from "@tabler/icons-react";
+import { Fragment } from "react/jsx-runtime";
 
 const ImageUpload = () => {
   return (
-    <>
+    <Fragment>
       <div className="imageUploadDiv">
         <input type="file" />
         <div className="imageContent">
@@ -13,7 +14,7 @@ const ImageUpload = () => {
           </Text>
         </div>
       </div>
-    </>
+    </Fragment>
   );
 };
 

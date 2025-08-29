@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { Fragment, useRef } from "react";
 import { ActionIcon, Card, Group, Table, Text, Tooltip, AspectRatio } from "@mantine/core";
 import { IconPlayerPlay } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -106,7 +106,7 @@ const VideoTutorialList = (props: { dataPass: any }) => {
   }, [videoTutorialList, dispatch]);
 
   return (
-    <>
+    <Fragment>
       {
         selectedVideo && (
           <PageModal
@@ -320,7 +320,7 @@ const VideoTutorialList = (props: { dataPass: any }) => {
           }} />
         }
       </Card.Section>
-    </>
+    </Fragment>
   );
 };
 export default React.memo(VideoTutorialList);

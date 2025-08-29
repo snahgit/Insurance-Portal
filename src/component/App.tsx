@@ -272,7 +272,7 @@ const App = () => {
               element: <SettledClaimDetail />,
               loader: () => {
                 return {
-                  type: 'claim',
+                  type: 'settledClaim',
                 };
               },
             },

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { ActionIcon, Badge, Card, Group, Table, Text, Tooltip, Box, Menu, NumberFormatter } from "@mantine/core";
 import { IconDots, IconInfoCircle, IconViewfinder, IconViewportWide } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -106,7 +106,7 @@ export const WalletTransactionList = (props: { dataPass: any }) => {
   };
 
   return (
-    <>
+    <Fragment>
       <PageDrawer
         onOpenReady={(api) => {
           drawerApiRef.current = api;
@@ -295,6 +295,6 @@ export const WalletTransactionList = (props: { dataPass: any }) => {
           }} />
         )}
       </Card.Section>
-    </>
+    </Fragment>
   );
 };

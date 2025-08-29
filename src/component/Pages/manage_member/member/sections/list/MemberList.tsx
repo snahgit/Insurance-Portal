@@ -317,12 +317,12 @@ export const MemberList = (props: { dataPass: any }) => {
                                         {val.status === 'Inactive' ? (
                                           <Menu.Item className="hover:bg-cyan-50 dark:hover:bg-cyan-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'reactivate' }); }}>Reactivate</Menu.Item>
                                         ) : (
-                                          <>
+                                          <Fragment>
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'active' }); }}>Active</Menu.Item>
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'pending' }); }}>Pending</Menu.Item>
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'cancel' }); }}>Cancel</Menu.Item>
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'expire' }); }}>Expire</Menu.Item>
-                                          </>
+                                          </Fragment>
                                         )}
                                       </Menu.Dropdown>
                                     </Menu>
@@ -421,12 +421,12 @@ export const MemberList = (props: { dataPass: any }) => {
                                           {val.status === 'Inactive' ? (
                                             <Menu.Item className="hover:bg-cyan-50 dark:hover:bg-cyan-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'reactivate' }); }}>Reactivate</Menu.Item>
                                           ) : (
-                                            <>
+                                            <Fragment>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'active' }); }}>Active</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'pending' }); }}>Pending</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'cancel' }); }}>Cancel</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal({ data: val, type: 'expire' }); }}>Expire</Menu.Item>
-                                            </>
+                                            </Fragment>
                                           )}
                                         </Menu.Dropdown>
                                       </Menu>

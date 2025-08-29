@@ -164,7 +164,7 @@ export const PageAudioVideoCall: React.FC = () => {
                                         </div>
                                     </div>
                                 ) : (
-                                    <>
+                                    <Fragment>
                                         {callType === 'video' && !isVideoMuted ? (
                                             <div className="w-full h-full bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 flex items-center justify-center relative">
                                                 <div className="absolute inset-0 bg-black bg-opacity-20"></div>
@@ -204,7 +204,7 @@ export const PageAudioVideoCall: React.FC = () => {
                                                 </div>
                                             </div>
                                         )}
-                                    </>
+                                    </Fragment>
                                 )}
                             </div>
                             <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 to-transparent">

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { ActionIcon, Badge, Card, Group, Table, Text, Tooltip, Box, Menu, Avatar } from "@mantine/core";
 import { IconDetails, IconDots, IconEdit, IconInfoCircle, IconMailPin, IconPhone, IconReplace } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
@@ -122,7 +122,7 @@ export const StaffMemberList = (props: { dataPass: any }) => {
     requireSecurityCheck(originalAddAction, type);
   };
   return (
-    <>
+    <Fragment>
       <PageModal
         onOpenReady={(api) => {
           modalApiRef.current = api;
@@ -440,6 +440,6 @@ export const StaffMemberList = (props: { dataPass: any }) => {
           }} />
           )}
       </Card.Section>
-    </>
+    </Fragment>
   );
 };
