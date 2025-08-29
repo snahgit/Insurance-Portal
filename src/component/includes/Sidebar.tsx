@@ -35,67 +35,12 @@ const menuData: MenuItem[] = [
     gradient: "from-cyan-500 to-blue-600",
     subMenu: [],
   },
-  // {
-  //   title: "Medical Provider",
-  //   link: "#",
-  //   icon: <IconMedicalCross size={20} />,
-  //   gradient: "from-emerald-500 to-teal-600",
-  //   subMenu: [
-  //     {
-  //       title: "Physician",
-  //       link: "/medical-providers/physician",
-  //       nestedMenu: [],
-  //     },
-  //     {
-  //       title: "Department",
-  //       link: "/medical-providers/department",
-  //       nestedMenu: [],
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Manage Appointment",
-  //   link: "#",
-  //   icon: <IconReportMedical size={20} />,
-  //   gradient: "from-cyan-500 to-pink-600",
-  //   subMenu: [
-  //     {
-  //       title: "Appointment",
-  //       link: "/manage-appointment/appointment",
-  //       nestedMenu: [],
-  //     },
-  //   ],
-  // },
-  // {
-  //   title: "Manage Schedule",
-  //   link: "/manage-schedule/schedule",
-  //   icon: <IconCalendarCheck size={20} />,
-  //   gradient: "from-orange-500 to-red-600",
-  //   subMenu: [],
-  // },
-  // {
-  //   title: "Patient",
-  //   link: "/manage-patient/patient",
-  //   icon: <IconBox size={20} />,
-  //   gradient: "from-cyan-500 to-blue-600",
-  //   subMenu: [],
-  // },
   {
     title: "Manage Claim",
     link: "#",
     icon: <IconClover size={20} />,
     gradient: "from-cyan-500 to-blue-600",
     subMenu: [
-      // {
-      //   title: "Facility claim",
-      //   link: "/manage-claim/facility-claim",
-      //   nestedMenu: [],
-      // },
-      // {
-      //   title: "Pharmacy claim",
-      //   link: "/manage-claim/pharmacy-claim",
-      //   nestedMenu: [],
-      // },
       {
         title: "Settled claim",
         link: "/manage-claim/settled-claim",
@@ -116,11 +61,6 @@ const menuData: MenuItem[] = [
     icon: <IconReportMedical size={20} />,
     gradient: "from-cyan-500 to-pink-600",
     subMenu: [
-      // {
-      //   title: "Payments Log",
-      //   link: "/transaction-history/payment-log",
-      //   nestedMenu: [],
-      // },
       {
         title: "Claim Transaction",
         link: "/transaction-history/claim-transaction",
@@ -167,20 +107,8 @@ const menuData: MenuItem[] = [
         link: "/manage-staff/staff-member",
         nestedMenu: [],
       },
-      // {
-      //   title: "Pharmacist",
-      //   link: "/manage-staff/pharmacist",
-      //   nestedMenu: [],
-      // },
     ],
   },
-  // {
-  //   title: "Manage Prescription",
-  //   link: "/manage-prescription/prescription",
-  //   icon: <IconPrescription size={20} />,
-  //   gradient: "from-cyan-500 to-blue-600",
-  //   subMenu: [],
-  // },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ handleCollapse, collapse }) => {

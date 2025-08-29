@@ -1,6 +1,6 @@
 import { Box, Card, Text, Badge, Grid, Group, Divider, Paper, Image, Title, SimpleGrid, ActionIcon, Tooltip, Avatar, Tabs } from "@mantine/core";
-import { IconUser, IconMail, IconFileText, IconPill, IconCut, IconStethoscope, IconTestPipe, IconHeartbeat, IconBandage, IconReceipt, IconEye, IconDownload, IconMapPin, IconCalendar, IconStatusChange, IconPhone, IconCalendarEvent, IconSend } from "@tabler/icons-react";
-import { useRef, useState, useEffect } from "react";
+import { IconUser, IconMail, IconFileText, IconPill, IconCut, IconStethoscope, IconTestPipe, IconHeartbeat, IconBandage, IconReceipt, IconEye, IconDownload, IconMapPin, IconCalendar, IconStatusChange, IconPhone, IconCalendarEvent } from "@tabler/icons-react";
+import { useRef, useState } from "react";
 import { Breadcrumb } from "../../../../../includes/BreadCrumbs";
 import { PageTopBarAndFilter } from "../../../../../common/PageTopBarAndFilter";
 import { PageModal } from "../../../../../common/PageModal";
@@ -8,19 +8,11 @@ import moment from "moment";
 import { format } from '@react-input/mask';
 import { ReportViewComponent } from "./ReportViewComponent";
 import { useSecurityCheck } from "../../../../../../context/SecurityCheckContext";
-import { PatientSendReportForm } from "../../../../manage_patient/patient/sections/form/PatientSendReportForm";
 
 export const ReportDetail = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const modalApiRef = useRef<{ open: () => void } | null>(null)
-  const [targetFile, setTargetFile] = useState('');
-  const [modalType, setModalType] = useState('');
   const { requireSecurityCheck } = useSecurityCheck()
-
-  // Debug modal type changes
-  useEffect(() => {
-    console.log('Modal type changed to:', modalType);
-  }, [modalType]);
 
   const reportDetailData = {
     "id": 1,
@@ -205,20 +197,10 @@ export const ReportDetail = () => {
   const handleImageClick = (imagePath: string) => {
     const originalAddAction = () => {
       console.log('Setting modal type to view');
-      setModalType('view')
       setSelectedImage(imagePath);
       setTimeout(() => modalApiRef.current?.open?.(), 100)
     }
     requireSecurityCheck(originalAddAction, "View Report")
-  };
-  const handleSendReport = (data: any) => {
-    const originalAddAction = () => {
-      console.log('Setting modal type to send');
-      setModalType('send')
-      setTargetFile(data)
-      setTimeout(() => modalApiRef.current?.open?.(), 100)
-    }
-    requireSecurityCheck(originalAddAction, "Send Report")
   };
 
   // Helper function to calculate total counts across all report groups
@@ -296,19 +278,6 @@ export const ReportDetail = () => {
                           }}
                         >
                           <IconDownload size={18} />
-                        </ActionIcon>
-                      </Tooltip>
-                      <Tooltip label="Send">
-                        <ActionIcon
-                          variant="filled"
-                          color="blue"
-                          size="lg"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSendReport(item.path);
-                          }}
-                        >
-                          <IconSend size={18} />
                         </ActionIcon>
                       </Tooltip>
                     </Group>
@@ -552,21 +521,16 @@ export const ReportDetail = () => {
         onOpenReady={(api) => {
           modalApiRef.current = api;
         }}
-        title={modalType === 'send' ? "Send Report" : "Document Preview"}
+        title="Document Preview"
         modalConfig={{
-          size: modalType === 'send' ? 'xl' : 'lg',
+          size: 'lg',
           centered: true,
           closeOnClickOutside: true,
           closeOnEscape: true,
           zIndex: 300
         }}
       >
-        {modalType === 'send' && (
-          <PatientSendReportForm dataPass={{ targetFile }} />
-        )}
-        {modalType === 'view' && (
-          <ReportViewComponent dataPass={{ selectedImage }} />
-        )}
+        <ReportViewComponent dataPass={{ selectedImage }} />
       </PageModal>
     </Box>
   );
