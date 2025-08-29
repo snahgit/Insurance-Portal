@@ -47,9 +47,9 @@ export const login = createAsyncThunk(
         message: "Login Successfully",
       });
       localStorage.setItem("snah_token", 'tokem');
-      localStorage.setItem("snah_user", JSON.stringify({ "_id": "63f624cf7622256e00005169", "email": "mk.rahulbiswas07@gmail.com", "name": "UC Davis Medical Facility" }));
+      localStorage.setItem("snah_user", JSON.stringify({ "_id": "63f624cf7622256e00005169", "email": "mk.rahulbiswas07@gmail.com", "name": "Oscar Health Insurance" }));
       location.reload();
-      return { "_id": "63f624cf7622256e00005169", "email": "mk.rahulbiswas07@gmail.com", "name": "UC Davis Medical Facility" };
+      return { "_id": "63f624cf7622256e00005169", "email": "mk.rahulbiswas07@gmail.com", "name": "Oscar Health Insurance" };
     } catch (error) {
       notifications.show({
         color: "red",
