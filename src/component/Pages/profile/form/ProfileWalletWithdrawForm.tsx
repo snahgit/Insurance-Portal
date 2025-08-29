@@ -5,9 +5,16 @@ import { IconAlertCircle, IconMoneybagEdit, IconNumber, IconPlus } from "@tabler
 import { useFormHelper } from "../../../../services/helperService"
 import { notifications } from "@mantine/notifications"
 import { profileWalletWithdrawSchema, type ProfileWalletWithdrawFormType } from "../../../../services/zod_schema/profile/zodProfileWalletWithdrawSchema"
+import { useNavigate } from "react-router"
+import { useDispatch } from "react-redux"
+import { closePageModal, closePageDrawer } from "../../../../redux/slices/modalDrawerSlice"
+import { closeSecurityModal } from "../../../../redux/slices/securityModalSlice"
 
 export const ProfileWalletWithdrawForm = (_props: { dataPass: any }) => {
   // const { id } = props.dataPass;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const bakList = [
     {
       name: 'Bank of America',
@@ -24,7 +31,28 @@ export const ProfileWalletWithdrawForm = (_props: { dataPass: any }) => {
       accNumber: '**** **** **** 1754',
       accHolder: 'Ella Fitzgerald'
     }
-  ]
+  ];
+
+  const handleAddNewBank = () => {
+    dispatch(closePageModal());
+    dispatch(closePageDrawer());
+    dispatch(closeSecurityModal());
+    notifications.show({
+      title: 'Redirecting to Profile',
+      message: 'Opening Account Details section to add new bank account',
+      color: 'blue',
+    });
+    setTimeout(() => {
+      navigate('/profile', { 
+        state: { 
+          action: 'editMode',
+          section: 'accountDetails',
+          subAction: 'addAccount' 
+        } 
+      });
+    }, 100);
+  };
+
   const profileWalletWithdrawObject = profileWalletWithdrawSchema();
   const form = useFormHelper<ProfileWalletWithdrawFormType>({
     initialValues: {
@@ -120,13 +148,7 @@ export const ProfileWalletWithdrawForm = (_props: { dataPass: any }) => {
                             withBorder
                             radius="md"
                             className="border-dashed border-gray-300 dark:border-gray-600 cursor-pointer hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200"
-                            onClick={() => {
-                              notifications.show({
-                                title: 'Add New Bank',
-                                message: 'Add new bank functionality will be implemented',
-                                color: 'blue',
-                              });
-                            }}
+                            onClick={handleAddNewBank}
                           >
                             <Card.Section className="px-4 py-6 text-center">
                               <Group justify="center" gap="sm">

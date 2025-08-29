@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { IconCloudLock, IconCertificate, IconClipboardData, IconUserCircle, IconWallet, IconLock, IconChevronRight, IconListDetails, IconEdit, IconReload } from "@tabler/icons-react";
 import { Avatar, Badge, Box, Button, Card, Divider, Grid, Group, Paper, Text } from "@mantine/core";
 import { Breadcrumb } from "../../includes/BreadCrumbs";
@@ -12,6 +12,8 @@ import { ProfileKycDocument } from "./detail/ProfileKycDocument";
 import { ProfileCertification } from "./detail/ProfileCertification";
 import { ProfileInsuranceCovered } from "./detail/ProfileInsuranceCovered";
 import { ProfileAccountLinked } from "./detail/ProfileAccountLinked";
+import { useLocation } from "react-router";
+import { notifications } from "@mantine/notifications";
 
 const userTabsData = [
   {
@@ -59,10 +61,43 @@ const userTabsData = [
 ];
 
 export const Profile = () => {
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState<{ tabSize: String; id: number; title: string; longTitle: string; icon?: React.ElementType; component: React.ElementType } | undefined>();
   const [isEditProfileActive, setIsEditProfileActive] = useState<boolean>(false);
   const [drawerData, setDrawerData] = useState<number | undefined>();
   const drawerApiRef = useRef<{ open: () => void } | null>(null);
+  const [hasProcessedNavigation, setHasProcessedNavigation] = useState(false);
+  
+  useEffect(() => {
+    if (location.state && !hasProcessedNavigation) {
+      const { action, section, subAction } = location.state as any;
+      if (action === 'editMode') {
+        setHasProcessedNavigation(true);
+        setIsEditProfileActive(true);
+        if (section === 'accountDetails') {
+          const accountDetailsTab = userTabsData.find(tab => tab.id === 3);
+          if (accountDetailsTab) {
+            setTimeout(() => {
+              handleDrawer(accountDetailsTab);
+              if (subAction === 'addAccount') {
+                setTimeout(() => {
+                  notifications.show({
+                    title: 'Account Details Opened',
+                    message: 'You can now add a new bank account in the Account Details section',
+                    color: 'green',
+                  });
+                }, 500);
+              }
+            }, 100);
+          }
+        }
+        if (window.history.replaceState) {
+          window.history.replaceState({}, '', window.location.pathname);
+        }
+      }
+    }
+  }, [location.state, hasProcessedNavigation]);
+
   const profileData = {
     id: 1,
     avatar: "/images/viewprofile.jpg",

@@ -1,9 +1,11 @@
 import { Card, Group, Text, ActionIcon, Button, Stack, Title, Grid, Box, Tooltip, Divider } from '@mantine/core';
 import { IconPencil, IconPlus, IconBuildingBank, IconBuilding, IconRoute, IconId, IconUser, IconHome, IconMapPin, IconMap, IconMail } from '@tabler/icons-react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { PageNoDataFound } from '../../../common/PageNoDataFound';
 import { PageModal } from '../../../common/PageModal';
 import { ProfileAccountLinkedForm } from '../form/ProfileAccountLinkedForm';
+import { useLocation } from 'react-router';
+import { notifications } from '@mantine/notifications';
 
 interface AccountLinkedType {
   accountHolderName: string;
@@ -21,8 +23,33 @@ interface AccountLinkedType {
 
 export const ProfileAccountLinked = (props: { dataPass: any }) => {
   const { isEditProfileActive } = props.dataPass;
+  const location = useLocation();
   const [accountLinkedData, setAccountLinkedData] = useState<any>(null);
   const modalApiRef = useRef<{ open: () => void } | null>(null);
+  const [hasTriggeredFromNavigation, setHasTriggeredFromNavigation] = useState(false);
+  
+  useEffect(() => {
+    if (location.state && !hasTriggeredFromNavigation) {
+      const { action, section, subAction } = location.state as any;
+      if (action === 'editMode' && section === 'accountDetails' && subAction === 'addAccount') {
+        setHasTriggeredFromNavigation(true);
+        setTimeout(() => {
+          if (isEditProfileActive) {
+            handleModal(null);
+            notifications.show({
+              title: 'Add New Account',
+              message: 'Please fill in your bank account details below',
+              color: 'blue',
+            });
+          }
+        }, 1000);
+        if (window.history.replaceState) {
+          window.history.replaceState({}, '', window.location.pathname);
+        }
+      }
+    }
+  }, [isEditProfileActive, location.state, hasTriggeredFromNavigation]);
+
   const [accountLinked] = useState<AccountLinkedType[]>([
     {
       accountHolderName: 'John Doe',
