@@ -108,10 +108,10 @@ const Dashboard = () => {
 
       <div className="mb-8">
         <Text size="xl" fw={700} className="text-gray-800 dark:text-gray-200 mb-2">
-          Medical Facility Dashboard
+          Insurance Portal Dashboard
         </Text>
         <Text size="sm" c="dimmed">
-          Welcome back! Here's what's happening at your facility today.
+          Welcome back! Here's what's happening at your insurance portal today.
         </Text>
       </div>
 
