@@ -107,13 +107,13 @@ export const SettledClaimVerifyForm = (props: { dataPass: any }) => {
   const renderClaimSpecificDetails = () => {
     switch (claimData.claimType) {
       case "Pharmacy":
-        return <SettledPharmacyClaimDetail claimData={claimData} />;
+        return <SettledPharmacyClaimDetail dataPass={{ claimData, from: 'verify' }} />;
       case "Private Practice":
-        return <SettledFacilityClaimDetail claimData={claimData} />;
+        return <SettledFacilityClaimDetail dataPass={{ claimData, from: 'verify' }} />;
       case "Medical Facility":
-        return <SettledFacilityClaimDetail claimData={claimData} />;
+        return <SettledFacilityClaimDetail dataPass={{ claimData, from: 'verify' }} />;
       default:
-        return <SettledFacilityClaimDetail claimData={claimData} />;
+        return <SettledFacilityClaimDetail dataPass={{ claimData, from: 'verify' }} />;
     }
   };
 
@@ -132,9 +132,6 @@ export const SettledClaimVerifyForm = (props: { dataPass: any }) => {
               <Group gap="xs" mt="xs">
                 <Badge color={themeColor} variant="light">
                   {claim.claimType}
-                </Badge>
-                <Badge color="green" variant="filled" size="sm">
-                  {claim.status}
                 </Badge>
               </Group>
             </div>
@@ -210,17 +207,8 @@ export const SettledClaimVerifyForm = (props: { dataPass: any }) => {
                 <Group gap="xs" className="items-start">
                   <IconMathFunction size={18} className="text-green-600 dark:text-green-400 mt-1" />
                   <div>
-                    <Text size="sm" className="text-gray-600 dark:text-gray-400">Amount Paid</Text>
-                    <Text fw={700} className="text-gray-800 dark:text-gray-200">{currency(claim.amountPaid)}</Text>
-                  </div>
-                </Group>
-              </Paper>
-              <Paper className="p-3 rounded-md border border-green-200 dark:border-green-700 bg-white/60 dark:bg-gray-800/60">
-                <Group gap="xs" className="items-start">
-                  <IconMathFunction size={18} className="text-emerald-600 mt-1" />
-                  <div>
-                    <Text size="sm" className="text-gray-600 dark:text-gray-400">Settlement Status</Text>
-                    <Text fw={700} className="text-green-600 dark:text-green-400">FULLY PAID</Text>
+                    <Text size="sm" className="text-gray-600 dark:text-gray-400">Amount Will Paid</Text>
+                    <Text fw={700} className="text-gray-800 dark:text-gray-200">{currency(form.values.payingAmount)}</Text>
                   </div>
                 </Group>
               </Paper>
@@ -240,7 +228,7 @@ export const SettledClaimVerifyForm = (props: { dataPass: any }) => {
               <FormWrapper
                 form={form}
                 onSubmit={onSubmitCall}
-                submitButtonText="Submit"
+                submitButtonText="Change claim amount"
                 submitButtonIcon={<IconCheck size={16} />}
                 actionButtonAlignment="center"
                 isLoading={isLoading}>

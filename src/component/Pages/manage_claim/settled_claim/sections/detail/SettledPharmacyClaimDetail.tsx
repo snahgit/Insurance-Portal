@@ -3,13 +3,10 @@ import { Card, Text, Badge, Grid, Group, Divider, Paper, Table } from "@mantine/
 import { IconMedicalCross, IconMathFunction } from "@tabler/icons-react";
 import moment from "moment";
 
-interface SettledPharmacyClaimDetailProps {
-    claimData: any;
-}
 
-export const SettledPharmacyClaimDetail = ({ claimData }: SettledPharmacyClaimDetailProps) => {
+export const SettledPharmacyClaimDetail = (props: { dataPass: any }) => {
+    const { claimData, from } = props.dataPass;
     const currency = (n: number) => new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(n);
-
     return (
         <Fragment>
             <Divider
@@ -40,7 +37,7 @@ export const SettledPharmacyClaimDetail = ({ claimData }: SettledPharmacyClaimDe
                                     <Table.Th>Charged</Table.Th>
                                     <Table.Th>Approved</Table.Th>
                                     <Table.Th>Paid</Table.Th>
-                                    <Table.Th>Status</Table.Th>
+                                    {/* <Table.Th>Status</Table.Th> */}
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -52,7 +49,7 @@ export const SettledPharmacyClaimDetail = ({ claimData }: SettledPharmacyClaimDe
                                     <Table.Td>{currency(147.66)}</Table.Td>
                                     <Table.Td>{currency(147.66)}</Table.Td>
                                     <Table.Td>{currency(147.66)}</Table.Td>
-                                    <Table.Td><Badge color="green" size="sm">Paid</Badge></Table.Td>
+                                    {/* <Table.Td><Badge color="green" size="sm">Paid</Badge></Table.Td> */}
                                 </Table.Tr>
                                 <Table.Tr>
                                     <Table.Td>0003-2408</Table.Td>
@@ -62,7 +59,7 @@ export const SettledPharmacyClaimDetail = ({ claimData }: SettledPharmacyClaimDe
                                     <Table.Td>{currency(68.00)}</Table.Td>
                                     <Table.Td>{currency(68.00)}</Table.Td>
                                     <Table.Td>{currency(68.00)}</Table.Td>
-                                    <Table.Td><Badge color="green" size="sm">Paid</Badge></Table.Td>
+                                    {/* <Table.Td><Badge color="green" size="sm">Paid</Badge></Table.Td> */}
                                 </Table.Tr>
                             </Table.Tbody>
                         </Table>
@@ -108,7 +105,7 @@ export const SettledPharmacyClaimDetail = ({ claimData }: SettledPharmacyClaimDe
                                 <Paper key={allergy.id} className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-700">
                                     <div className="flex justify-between items-center mb-3">
                                         <Badge color="red" variant="light" size="sm">Allergy Treatment #{allergy.id}</Badge>
-                                        <Badge color="green" variant="filled" size="sm">{allergy.status}</Badge>
+                                        {/* <Badge color="green" variant="filled" size="sm">{allergy.status}</Badge> */}
                                     </div>
                                     <div className="space-y-3">
                                         <div className="grid grid-cols-2 gap-3 text-sm">
@@ -188,50 +185,52 @@ export const SettledPharmacyClaimDetail = ({ claimData }: SettledPharmacyClaimDe
                     </Card.Section>
                 </Card>
             </Grid.Col>
-            <Grid.Col span={{ base: 12 }}>
-                <Card withBorder radius="md" className="border-green-200 dark:border-green-700 dark:bg-gray-800">
-                    <Card.Section className="bg-green-100 dark:bg-green-900/30 px-4 py-3 rounded-t-md">
-                        <Group justify="start">
-                            <IconMathFunction size={16} className="text-green-700 dark:text-green-400" />
-                            <Text fw={600} size="md" className="text-green-800 dark:text-green-200">Pharmacy Claim Settlement Summary</Text>
-                        </Group>
-                    </Card.Section>
-                    <Card.Section className="px-4 py-4">
-                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg">
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
-                                    <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Total Billed</Text>
-                                    <Text size="xl" fw={700} className="text-gray-800 dark:text-gray-200">{currency(claimData?.totalCharge || 215.66)}</Text>
-                                </Paper>
-                                <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
-                                    <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Insurance Paid</Text>
-                                    <Text size="xl" fw={700} className="text-green-600 dark:text-green-400">{currency(claimData?.amountPaid || 215.66)}</Text>
-                                </Paper>
-                                <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
-                                    <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Patient Copay</Text>
-                                    <Text size="xl" fw={700} className="text-blue-600 dark:text-blue-400">{currency(0)}</Text>
-                                </Paper>
-                                <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
-                                    <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Outstanding</Text>
-                                    <Text size="xl" fw={700} className="text-green-600 dark:text-green-400">{currency(0)}</Text>
-                                </Paper>
+            {from === 'detail' && (
+                <Grid.Col span={{ base: 12 }}>
+                    <Card withBorder radius="md" className="border-green-200 dark:border-green-700 dark:bg-gray-800">
+                        <Card.Section className="bg-green-100 dark:bg-green-900/30 px-4 py-3 rounded-t-md">
+                            <Group justify="start">
+                                <IconMathFunction size={16} className="text-green-700 dark:text-green-400" />
+                                <Text fw={600} size="md" className="text-green-800 dark:text-green-200">Pharmacy Claim Settlement Summary</Text>
+                            </Group>
+                        </Card.Section>
+                        <Card.Section className="px-4 py-4">
+                            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-6 rounded-lg">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                    <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
+                                        <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Total Billed</Text>
+                                        <Text size="xl" fw={700} className="text-gray-800 dark:text-gray-200">{currency(claimData?.totalCharge || 215.66)}</Text>
+                                    </Paper>
+                                    <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
+                                        <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Insurance Paid</Text>
+                                        <Text size="xl" fw={700} className="text-green-600 dark:text-green-400">{currency(claimData?.amountPaid || 215.66)}</Text>
+                                    </Paper>
+                                    <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
+                                        <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Patient Copay</Text>
+                                        <Text size="xl" fw={700} className="text-blue-600 dark:text-blue-400">{currency(0)}</Text>
+                                    </Paper>
+                                    <Paper className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 text-center">
+                                        <Text size="xs" className="text-gray-600 dark:text-gray-400 mb-2">Outstanding</Text>
+                                        <Text size="xl" fw={700} className="text-green-600 dark:text-green-400">{currency(0)}</Text>
+                                    </Paper>
+                                </div>
+                                <Divider my="md" />
+                                <div className="text-center">
+                                    <Badge color="green" size="lg" variant="filled">
+                                        PHARMACY CLAIM FULLY SETTLED
+                                    </Badge>
+                                    <Text size="sm" className="text-gray-600 dark:text-gray-400 mt-2">
+                                        All prescriptions and treatments have been processed and paid in full
+                                    </Text>
+                                    <Text size="sm" className="text-gray-600 dark:text-gray-400">
+                                        Settlement completed on {moment(claimData?.settlementDate).format("MMMM DD, YYYY")}
+                                    </Text>
+                                </div>
                             </div>
-                            <Divider my="md" />
-                            <div className="text-center">
-                                <Badge color="green" size="lg" variant="filled">
-                                    PHARMACY CLAIM FULLY SETTLED
-                                </Badge>
-                                <Text size="sm" className="text-gray-600 dark:text-gray-400 mt-2">
-                                    All prescriptions and treatments have been processed and paid in full
-                                </Text>
-                                <Text size="sm" className="text-gray-600 dark:text-gray-400">
-                                    Settlement completed on {moment(claimData?.settlementDate).format("MMMM DD, YYYY")}
-                                </Text>
-                            </div>
-                        </div>
-                    </Card.Section>
-                </Card>
-            </Grid.Col>
+                        </Card.Section>
+                    </Card>
+                </Grid.Col>
+            )}
         </Fragment>
     );
 };

@@ -89,17 +89,17 @@ export const SettledClaimDetail = () => {
   const renderClaimSpecificDetails = () => {
     switch (claimData.claimType) {
       case "Pharmacy":
-        return <SettledPharmacyClaimDetail claimData={claimData} />;
+        return <SettledPharmacyClaimDetail dataPass={{ claimData, from: 'detail' }} />;
       case "Private Practice":
-        return <SettledFacilityClaimDetail claimData={claimData} />;
+        return <SettledFacilityClaimDetail dataPass={{ claimData, from: 'detail' }} />;
       case "Medical Facility":
-        return <SettledFacilityClaimDetail claimData={claimData} />;
+        return <SettledFacilityClaimDetail dataPass={{ claimData, from: 'detail' }} />;
       default:
-        return <SettledFacilityClaimDetail claimData={claimData} />;
+        return <SettledFacilityClaimDetail dataPass={{ claimData, from: 'detail' }} />;
     }
   };
 
-    const topBarAndFilter = {
+  const topBarAndFilter = {
     heading: "Claim details you can find below",
     viewMode: "grid",
     whatNeeded: {

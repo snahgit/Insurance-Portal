@@ -66,9 +66,14 @@ const menuData: MenuItem[] = [
         link: "/transaction-history/claim-transaction",
         nestedMenu: [],
       },
+      // {
+      //   title: "Wallet Transaction",
+      //   link: "/transaction-history/wallet-transaction",
+      //   nestedMenu: [],
+      // },
       {
-        title: "Wallet Transaction",
-        link: "/transaction-history/wallet-transaction",
+        title: "Revenue",
+        link: "/transaction-history/revenue",
         nestedMenu: [],
       },
     ],

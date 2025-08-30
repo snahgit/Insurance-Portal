@@ -38,6 +38,18 @@ export const SettledClaim = () => {
       claimType: "Private Practice"
     },
     {
+      id: 33,
+      name: "Anna Taylor",
+      email: "anna.taylor981@yahoo.com",
+      phone: "9934746525",
+      avatar: "https://i.pravatar.cc/150?img=64",
+      claimDate: "2025-05-01",
+      status: "Under Review",
+      amount: 34,
+      plan: "Basic",
+      claimType: "Pharmacy"
+    },
+    {
       id: 3,
       name: "Sarah Williams",
       email: "sarah.williams522@example.com",

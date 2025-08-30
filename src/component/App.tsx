@@ -39,12 +39,12 @@ import { Member } from "./Pages/manage_member/member/Member";
 import { MemberDetail } from "./Pages/manage_member/member/sections/detail/MemberDetail";
 import { ReportDetail } from "./Pages/manage_report/report/sections/detail/ReportDetail";
 import { StaffMemberDetail } from "./Pages/manage_staff/staff_member/sections/detail/StaffMemberDetail";
-import { WalletTransaction } from "./Pages/transaction_history/wallet_transaction/WalletTransaction";
 import { SettledClaimDetail } from "./Pages/manage_claim/settled_claim/sections/detail/SettledClaimDetail";
 import { ClaimTransaction } from "./Pages/transaction_history/claim_transaction/ClaimTransaction";
 import { PageAudioVideoCall } from "./common/PageAudioVideoCall";
 import { ViewAccessLog } from "./Pages/quick_assist/view_access_log/ViewAccessLog";
 import { Dashboard } from "./Pages/dashboard/Dashboard";
+import { Revenue } from "./Pages/transaction_history/revenue/Revenue";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -200,12 +200,21 @@ const App = () => {
                 };
               },
             },
+            // {
+            //   path: "wallet-transaction",
+            //   element: <WalletTransaction />,
+            //   loader: () => {
+            //     return {
+            //       type: 'walletTransaction',
+            //     };
+            //   },
+            // },
             {
-              path: "wallet-transaction",
-              element: <WalletTransaction />,
+              path: "revenue",
+              element: <Revenue />,
               loader: () => {
                 return {
-                  type: 'walletTransaction',
+                  type: 'revenue',
                 };
               },
             },

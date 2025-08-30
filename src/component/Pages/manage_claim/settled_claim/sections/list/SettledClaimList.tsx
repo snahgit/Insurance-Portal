@@ -371,13 +371,20 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
                                             </Fragment>
                                           )}
+                                          {val.status === 'Pending' && (
+                                            <Fragment>
+                                              <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Under Review'); }}>Under Review</Menu.Item>
+                                              <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
+                                              <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Returned'); }}>Returned</Menu.Item>
+                                            </Fragment>
+                                          )}
                                           {val.status === 'Approved' && (
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Paid'); }}>Paid</Menu.Item>
                                           )}
                                           {val.status === 'Paid' && (
                                             <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Completed'); }}>Completed</Menu.Item>
                                           )}
-                                          {!['Under Review', 'Processing', 'Approved', 'Paid'].includes(val.status) && (
+                                          {!['Under Review', 'Processing', 'Approved', 'Paid', 'Pending'].includes(val.status) && (
                                             <Fragment>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Pending'); }}>Pending</Menu.Item>
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Under Review'); }}>Under Review</Menu.Item>
@@ -495,13 +502,20 @@ export const SettledClaimList = (props: { dataPass: any }) => {
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
                                               </Fragment>
                                             )}
+                                            {val.status === 'Pending' && (
+                                              <Fragment>
+                                                <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Under Review'); }}>Under Review</Menu.Item>
+                                                <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Rejected'); }}>Rejected</Menu.Item>
+                                                <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Returned'); }}>Returned</Menu.Item>
+                                              </Fragment>
+                                            )}
                                             {val.status === 'Approved' && (
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Paid'); }}>Paid</Menu.Item>
                                             )}
                                             {val.status === 'Paid' && (
                                               <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Completed'); }}>Completed</Menu.Item>
                                             )}
-                                            {!['Under Review', 'Processing', 'Approved', 'Paid'].includes(val.status) && (
+                                            {!['Under Review', 'Processing', 'Approved', 'Paid', 'Pending'].includes(val.status) && (
                                               <Fragment>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Pending'); }}>Pending</Menu.Item>
                                                 <Menu.Item className="hover:bg-blue-50 dark:hover:bg-blue-900 transition-colors duration-200" onClick={() => { handleModal(val, 'Under Review'); }}>Under Review</Menu.Item>

@@ -363,7 +363,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                     )
                   }
                   {
-                    (["viewAccessLog"].includes(mergedTopBarAndFilter.type)) && (
+                    (["viewAccessLog", "revenue"].includes(mergedTopBarAndFilter.type)) && (
                       <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                         <PageDateInput
                           placeholder="Filter by date"
