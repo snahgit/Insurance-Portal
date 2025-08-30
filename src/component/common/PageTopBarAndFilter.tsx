@@ -30,6 +30,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
       isViewModeNeeded: false,
       isCalendarNeeded: false,
       isFilterNeeded: false,
+      isSpecificFilterNeeded: false,
       isBackNeeded: false,
       isAddNeeded: false,
       isMoreActionNeeded: false,
@@ -302,7 +303,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                     "department",
                     "claim"
                   ].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by status"
                         data={[CONSTANT.status.active, CONSTANT.status.inactive]}
@@ -320,7 +321,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                     "patient",
                     "member"
                   ].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by gender"
                         data={[CONSTANT.gender.male, CONSTANT.gender.female, CONSTANT.gender.other]}
@@ -334,7 +335,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["settledClaim"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by claim"
                         data={[CONSTANT.claim.pending, CONSTANT.claim.underReview, CONSTANT.claim.processing, CONSTANT.claim.approved, CONSTANT.claim.rejected, CONSTANT.claim.returned, CONSTANT.claim.paid, CONSTANT.claim.completed]}
@@ -348,7 +349,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["schedule"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by schedule"
                         data={[CONSTANT.schedule.inPerson, CONSTANT.schedule.virtual, CONSTANT.schedule.homeVisit]}
@@ -362,7 +363,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["paymentLog"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by transaction"
                         data={[CONSTANT.transaction.pending, CONSTANT.transaction.paid, CONSTANT.transaction.refunded, CONSTANT.transaction.failed]}
@@ -376,7 +377,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["viewAccessLog"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageDateInput
                         placeholder="Filter by date"
                         className="min-w-32 text-gray-800 dark:text-gray-200"
@@ -389,7 +390,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["walletTransaction"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by wallet"
                         data={[CONSTANT.wallet.credit, CONSTANT.wallet.debit]}
@@ -403,7 +404,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["helpSupport"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by property"
                         data={[CONSTANT.property.high, CONSTANT.property.medium, CONSTANT.property.low]}
@@ -417,7 +418,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                 }
                 {
                   (["helpSupport"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageSelect
                         placeholder="Filter by state"
                         data={[CONSTANT.state.open, CONSTANT.state.close]}
@@ -437,7 +438,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                       "videoTutorial",
                     ].includes(mergedTopBarAndFilter.type)
                   ) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
+                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
                       <PageTextInput
                         placeholder="Search by name..."
                         leftSection={<IconSearch size={16} />}
@@ -448,103 +449,6 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
                     </Grid.Col>
                   )
                 }
-
-
-
-                {/* {(
-                  ["userPrivate", "userHospital", "userHome", "userPharmacy", "userCaregiver", "userRide", "userTreatment", "viewAccessLog", "report", "videoTutorial", "staffMember", "pharmacist", "helpSupport", "paymentsLog"].includes(
-                    mergedTopBarAndFilter.type
-                  )
-                ) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
-                      <TextInput
-                        placeholder="Search by name..."
-                        leftSection={<IconSearch size={16} />}
-                        className="flex-1"
-                        name="searchTerm"
-                        value={pageTopBarAndFilter.filter.searchTerm}
-                      />
-                    </Grid.Col>
-                  )}
-                {mergedTopBarAndFilter.type == "appointment" && (
-                  <Fragment>
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
-                      <DatePickerInput
-                        type="range"
-                        placeholder="Pick dates range"
-                        value={value}
-                        onChange={setValue}
-                      />
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
-                      <Select
-                        placeholder="Filter by status"
-                        data={["Pending", "Confirmed", "Cancelled", "Completed"]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        value={pageTopBarAndFilter.filter.statusFilter}
-                        clearable
-                      />
-                    </Grid.Col>
-                  </Fragment>
-                )}
-
-                {(
-                  ["settledClaim"].includes(
-                    mergedTopBarAndFilter.type
-                  )
-                ) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
-                      <Select
-                        placeholder="Filter by status"
-                        data={["Private Practice", "Medical Facility", "Pharmacy"]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        value={pageTopBarAndFilter.filter.claimType || null}
-                        clearable
-                        comboboxProps={{ withinPortal: true }}
-                      />
-                    </Grid.Col>
-                  )}
-                {(
-                  ["walletTransaction"].includes(
-                    mergedTopBarAndFilter.type
-                  )
-                ) && (
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 6 }}>
-                      <Select
-                        placeholder="Filter by status"
-                        data={
-                          mergedTopBarAndFilter.type === "walletTransaction"
-                            ? ["Credit", "Debit"]
-                            : ["Active", "Inactive"]
-                        }
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        value={pageTopBarAndFilter.filter.statusFilter || null}
-                        clearable
-                        comboboxProps={{ withinPortal: true }}
-                      />
-                    </Grid.Col>
-                  )}
-                {mergedTopBarAndFilter.type === "logs" && (
-                  <Fragment>
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
-                      <TextInput
-                        placeholder="Filter by Accessed by"
-                        leftSection={<IconSearch size={16} />}
-                        name="accessedBy"
-                        value={pageTopBarAndFilter.filter.accessedBy}
-                      />
-                    </Grid.Col>
-
-                    <Grid.Col span={{ base: 12, lg: 3, sm: 12 }}>
-                      <TextInput
-                        placeholder="Filter by Email"
-                        leftSection={<IconSearch size={16} />}
-                        name="email"
-                        value={pageTopBarAndFilter.filter.email}
-                      />
-                    </Grid.Col>
-                  </Fragment>
-                )} */}
                 <Grid.Col span={{ base: 12, lg: 3, sm: 12 }} className="gap-2">
                   <Group>
                     <Button variant="light" size="sm" color="blue" leftSection={<IconSearch />} onClick={handleSubmitFilter}>Search</Button>

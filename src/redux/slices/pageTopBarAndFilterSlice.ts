@@ -10,6 +10,7 @@ export interface FilterState {
   propertyFilter: string;
   stateFilter: string;
   claimFilter: string;
+  patientTypeFilter: string;
   dateFilter: string | null;
   statusFilter: string;
   transactionFilter: string;
@@ -86,6 +87,7 @@ const initialState: PageTopBarAndFilterState = {
     propertyFilter: "",
     stateFilter: "",
     claimFilter: "",
+    patientTypeFilter: "",
     dateFilter: null,
     claimType: "",
     statusFilter: "",
@@ -159,6 +161,7 @@ const pageTopBarAndFilterSlice = createSlice({
         propertyFilter: "",
         stateFilter: "",
         claimFilter: "",
+        patientTypeFilter: "",
         dateFilter: null,
         statusFilter: "",
         transactionFilter: "",
