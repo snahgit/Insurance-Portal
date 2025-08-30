@@ -1,6 +1,6 @@
 import { ActionIcon, Button, Card, Grid, Group, Menu, Text } from "@mantine/core";
-import { IconArrowAutofitLeft, IconClearAll, IconDots, IconEye, IconFilter, IconGridDots, IconList, IconPlus, IconSearch, IconX, IconCalendar } from "@tabler/icons-react";
-import { Fragment, useEffect } from "react";
+import { IconArrowAutofitLeft, IconClearAll, IconDots, IconEye, IconFilter, IconGridDots, IconList, IconPlus, IconSearch, IconX, IconCalendar, IconFilter2 } from "@tabler/icons-react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { setFilter, setHeading, setShowFilter, setViewMode, toggleFilter, toggleCalendar, setCalendarDateData, setCalendarActiveTab, setCalendarTitle, clearFilter } from "../../redux/slices/pageTopBarAndFilterSlice";
@@ -15,7 +15,7 @@ import { filterSchema, type FilterFormType } from "../../services/zod_schema/zod
 import { useAppSelector } from "../../redux/hooks";
 
 export const PageTopBarAndFilter = (props: { dataPass: any }) => {
-  // const [value, setValue] = useState<[string | null, string | null]>([null, null]);
+  const [specificFilterNeeded, setSpecificFilterNeeded] = useState(false);
   const { topBarAndFilter = {} } = props.dataPass;
   const defaultTopBarAndFilter = {
     heading: "",
@@ -93,6 +93,7 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
     }
   };
   const handleToggleFilter = () => {
+    setSpecificFilterNeeded(false);
     dispatch(toggleFilter());
   };
   const handleToggleCalendar = () => {
@@ -112,20 +113,10 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
 
     dispatch(toggleCalendar());
   };
-
   const getRealDateData = (__tabType: string): Record<string, number> => {
     return {};
   };
   const handleDateSelect = (_date: string) => { };
-
-  // const handleTextFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   dispatch(
-  //     setFilter({
-  //       field: event.target.name as keyof FilterState,
-  //       value: event.target.value,
-  //     })
-  //   );
-  // };
 
   const filterObject = filterSchema();
   const form = useFormHelper<FilterFormType>({
@@ -144,7 +135,6 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
     validationSchema: filterObject,
     mode: 'controlled',
   });
-
   const handleSubmitFilter = () => {
     dispatch(setFilter({ field: "statusFilter", value: form.values.statusFilter || "" }));
     dispatch(setFilter({ field: "genderFilter", value: form.values.genderFilter || "" }));
@@ -157,15 +147,11 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
     dispatch(setFilter({ field: "dateFilter", value: form.values.dateFilter || null }));
     dispatch(setFilter({ field: "claimFilter", value: form.values.claimFilter || null }));
   };
-
   const handleClearFilter = () => {
     form.reset();
+    setSpecificFilterNeeded(false);
     dispatch(clearFilter());
   };
-
-  // const handleChangeFilterClaimType = (value: string | null) => {
-  //   dispatch(setFilter({ field: "claimType", value: value || "" }));
-  // };
 
   return (
     <Fragment>
@@ -275,189 +261,245 @@ export const PageTopBarAndFilter = (props: { dataPass: any }) => {
       </Card.Section>
       {pageTopBarAndFilter.showFilter && (
         <Fragment>
-          <Card.Section className="border-b mk_filter">
-            <div className="p-4">
-              <Group justify="space-between" mb="md">
-                <Text fw={500} size="md">
-                  Filter Options
-                </Text>
-                <ActionIcon
-                  variant="subtle"
-                  color="gray"
-                  onClick={() => dispatch(setShowFilter(false))}
-                >
-                  <IconX size={16} />
-                </ActionIcon>
-              </Group>
+          {!specificFilterNeeded && (
+            <Card.Section className="border-b mk_filter">
+              <div className="p-4">
+                <Group justify="space-between" mb="md">
+                  <Text fw={500} size="md">
+                    Filter Options
+                  </Text>
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => dispatch(setShowFilter(false))}
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                </Group>
 
-              <Grid>
-                {
-                  ([
-                    "physician",
-                    "department",
-                    "appointment",
-                    "patient",
-                    "member",
-                    "staffMember",
-                    "pharmacist",
-                    "department",
-                    "claim"
-                  ].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by status"
-                        data={[CONSTANT.status.active, CONSTANT.status.inactive]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("statusFilter")}
-                        value={form.values.statusFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  ([
-                    "physician",
-                    "patient",
-                    "member"
-                  ].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by gender"
-                        data={[CONSTANT.gender.male, CONSTANT.gender.female, CONSTANT.gender.other]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("genderFilter")}
-                        value={form.values.genderFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["settledClaim"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by claim"
-                        data={[CONSTANT.claim.pending, CONSTANT.claim.underReview, CONSTANT.claim.processing, CONSTANT.claim.approved, CONSTANT.claim.rejected, CONSTANT.claim.returned, CONSTANT.claim.paid, CONSTANT.claim.completed]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("claimFilter")}
-                        value={form.values.claimFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["schedule"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by schedule"
-                        data={[CONSTANT.schedule.inPerson, CONSTANT.schedule.virtual, CONSTANT.schedule.homeVisit]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("scheduleFilter")}
-                        value={form.values.scheduleFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["paymentLog"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by transaction"
-                        data={[CONSTANT.transaction.pending, CONSTANT.transaction.paid, CONSTANT.transaction.refunded, CONSTANT.transaction.failed]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("transactionFilter")}
-                        value={form.values.transactionFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["viewAccessLog"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageDateInput
-                        placeholder="Filter by date"
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("dateFilter")}
-                        value={form.values.dateFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["walletTransaction"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by wallet"
-                        data={[CONSTANT.wallet.credit, CONSTANT.wallet.debit]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("walletFilter")}
-                        value={form.values.walletFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["helpSupport"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by property"
-                        data={[CONSTANT.property.high, CONSTANT.property.medium, CONSTANT.property.low]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("propertyFilter")}
-                        value={form.values.propertyFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (["helpSupport"].includes(mergedTopBarAndFilter.type)) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageSelect
-                        placeholder="Filter by state"
-                        data={[CONSTANT.state.open, CONSTANT.state.close]}
-                        className="min-w-32 text-gray-800 dark:text-gray-200"
-                        {...form.getInputProps("stateFilter")}
-                        value={form.values.stateFilter || null}
-                        clearable
-                      />
-                    </Grid.Col>
-                  )
-                }
-                {
-                  (
-                    [
+                <Grid>
+                  {
+                    ([
+                      "physician",
+                      "department",
+                      "appointment",
                       "patient",
                       "member",
-                      "videoTutorial",
-                    ].includes(mergedTopBarAndFilter.type)
-                  ) && (
-                    <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
-                      <PageTextInput
-                        placeholder="Search by name..."
-                        leftSection={<IconSearch size={16} />}
-                        className="flex-1"
-                        {...form.getInputProps("textFilter")}
-                        value={form.values.textFilter || ''}
-                      />
-                    </Grid.Col>
-                  )
-                }
-                <Grid.Col span={{ base: 12, lg: 3, sm: 12 }} className="gap-2">
-                  <Group>
-                    <Button variant="light" size="sm" color="blue" leftSection={<IconSearch />} onClick={handleSubmitFilter}>Search</Button>
-                    <Button variant="light" size="sm" color="red" leftSection={<IconClearAll />} onClick={handleClearFilter}>Clear</Button>
-                  </Group>
-                </Grid.Col>
-              </Grid>
-            </div>
-          </Card.Section>
+                      "staffMember",
+                      "pharmacist",
+                      "department",
+                      "claim"
+                    ].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by status"
+                          data={[CONSTANT.status.active, CONSTANT.status.inactive]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("statusFilter")}
+                          value={form.values.statusFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    ([
+                      "physician",
+                      "patient",
+                      "member"
+                    ].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by gender"
+                          data={[CONSTANT.gender.male, CONSTANT.gender.female, CONSTANT.gender.other]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("genderFilter")}
+                          value={form.values.genderFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["settledClaim"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by claim"
+                          data={[CONSTANT.claim.pending, CONSTANT.claim.underReview, CONSTANT.claim.processing, CONSTANT.claim.approved, CONSTANT.claim.rejected, CONSTANT.claim.returned, CONSTANT.claim.paid, CONSTANT.claim.completed]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("claimFilter")}
+                          value={form.values.claimFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["schedule"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by schedule"
+                          data={[CONSTANT.schedule.inPerson, CONSTANT.schedule.virtual, CONSTANT.schedule.homeVisit]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("scheduleFilter")}
+                          value={form.values.scheduleFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["paymentLog"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by transaction"
+                          data={[CONSTANT.transaction.pending, CONSTANT.transaction.paid, CONSTANT.transaction.refunded, CONSTANT.transaction.failed]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("transactionFilter")}
+                          value={form.values.transactionFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["viewAccessLog"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageDateInput
+                          placeholder="Filter by date"
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("dateFilter")}
+                          value={form.values.dateFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["walletTransaction"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by wallet"
+                          data={[CONSTANT.wallet.credit, CONSTANT.wallet.debit]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("walletFilter")}
+                          value={form.values.walletFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["helpSupport"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by property"
+                          data={[CONSTANT.property.high, CONSTANT.property.medium, CONSTANT.property.low]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("propertyFilter")}
+                          value={form.values.propertyFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["helpSupport"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageSelect
+                          placeholder="Filter by state"
+                          data={[CONSTANT.state.open, CONSTANT.state.close]}
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("stateFilter")}
+                          value={form.values.stateFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (
+                      [
+                        "member",
+                        "videoTutorial",
+                      ].includes(mergedTopBarAndFilter.type)
+                    ) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageTextInput
+                          placeholder="Search by name..."
+                          leftSection={<IconSearch size={16} />}
+                          className="flex-1"
+                          {...form.getInputProps("textFilter")}
+                          value={form.values.textFilter || ''}
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 6, lg: 6 }} className="gap-2">
+                    <Group justify="start">
+                      <Button variant="light" size="sm" color="blue" leftSection={<IconSearch />} onClick={handleSubmitFilter}>Search</Button>
+                      <Button variant="light" size="sm" color="red" leftSection={<IconClearAll />} onClick={handleClearFilter}>Clear</Button>
+                      {mergedTopBarAndFilter.whatNeeded.isSpecificFilterNeeded && (
+                        <Button variant="light" size="sm" color="cyan" leftSection={<IconFilter2 />} onClick={() => setSpecificFilterNeeded(true)}>Specific Filter</Button>
+                      )}
+                    </Group>
+                  </Grid.Col>
+                </Grid>
+              </div>
+            </Card.Section>
+          )}
+          {specificFilterNeeded && (
+            <Card.Section className="border-b mk_filter">
+              <div className="p-4">
+                <Group justify="space-between" mb="md">
+                  <Text fw={500} size="md">
+                    Filter Options
+                  </Text>
+                  <ActionIcon
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => dispatch(setShowFilter(false))}
+                  >
+                    <IconX size={16} />
+                  </ActionIcon>
+                </Group>
+                <Grid>
+                  {
+                    (["patient"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageDateInput
+                          placeholder="Filter by date"
+                          className="min-w-32 text-gray-800 dark:text-gray-200"
+                          {...form.getInputProps("dateFilter")}
+                          value={form.values.dateFilter || null}
+                          clearable
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  {
+                    (["patient"].includes(mergedTopBarAndFilter.type)) && (
+                      <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <PageTextInput
+                          placeholder="Search by name..."
+                          leftSection={<IconSearch size={16} />}
+                          className="flex-1"
+                          {...form.getInputProps("textFilter")}
+                          value={form.values.textFilter || ''}
+                        />
+                      </Grid.Col>
+                    )
+                  }
+                  <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 6, lg: 6 }} className="gap-2">
+                    <Group justify="start">
+                      <Button variant="light" size="sm" color="blue" leftSection={<IconSearch />} onClick={handleSubmitFilter}>Search</Button>
+                      <Button variant="light" size="sm" color="red" leftSection={<IconClearAll />} onClick={handleClearFilter}>Clear</Button>
+                    </Group>
+                  </Grid.Col>
+                </Grid>
+              </div>
+            </Card.Section>
+          )}
         </Fragment>
       )}
       {mergedTopBarAndFilter.whatNeeded.isCalendarNeeded && (

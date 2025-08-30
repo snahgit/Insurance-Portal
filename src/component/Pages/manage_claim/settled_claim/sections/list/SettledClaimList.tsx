@@ -17,6 +17,7 @@ import { SettledClaimMissingRejectForm } from "../form/SettledClaimMissingReject
 import { SettledClaimQuickView } from "../detail/SettledClaimQuickView";
 import { SettledClaimPayForm } from "../form/SettledClaimPayForm";
 import { SettledClaimReturnForm } from "../form/SettledClaimReturnForm";
+import { SettledClaimVerifyForm } from "../form/SettledClaimVerifyForm";
 
 export const options = {
   mask: "(___) ___-__-__",
@@ -82,6 +83,11 @@ export const SettledClaimList = (props: { dataPass: any }) => {
         setPageModalType('Fill the out reason of returning the claim');
         setModalSize('md')
         setPassComponentToModalByMatch(<SettledClaimReturnForm dataPass={{ id: data }} />);
+        setTimeout(() => modalApiRef.current?.open?.(), 0);
+      } else if (type === "Processing") {
+        setPageModalType('Before processing the claim check all information given bellow');
+        setModalSize('70%')
+        setPassComponentToModalByMatch(<SettledClaimVerifyForm dataPass={{ id: data }} />);
         setTimeout(() => modalApiRef.current?.open?.(), 0);
       } else {
         console.log("Unknown modal type");
