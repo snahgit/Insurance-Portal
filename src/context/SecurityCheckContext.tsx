@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState } from '../redux/store';
 import { closeSecurityModal, openSecurityModal } from '../redux/slices/securityModalSlice';
@@ -32,6 +32,7 @@ export const SecurityCheckContext: React.FC<SecurityCheckContextProps> = ({ chil
     const securityModal = useSelector((state: RootState) => state.securityModal);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [securityPinText, setSecurityPinText] = useState<string>('Security pin');
 
     const securityCheckObject = securityCheckSchema();
 
@@ -97,6 +98,12 @@ export const SecurityCheckContext: React.FC<SecurityCheckContextProps> = ({ chil
         dispatch(closeSecurityModal());
     };
 
+    useEffect(() => {
+        if (securityModal.onSuccessAction == 'treatment') {
+            setSecurityPinText('Patient authorization pin');
+        }
+    }, [securityModal.onSuccessAction]);
+
     return (
         <Fragment>
             {children}
@@ -135,7 +142,7 @@ export const SecurityCheckContext: React.FC<SecurityCheckContextProps> = ({ chil
                     >
                         <Grid>
                             <Grid.Col span={{ base: 12, xs: 12, sm: 6, md: 6 }}>
-                                <FormField label="Security Pin" required>
+                                <FormField label={securityPinText} required>
                                     <PageTextInput
                                         placeholder="Enter security pin..."
                                         size='sm'

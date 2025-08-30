@@ -15,7 +15,6 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
         return [firstDay, now];
     });
     const [transactionTypeFilter, setTransactionTypeFilter] = useState<string | null>('');
-
     const transactions = [
         {
             id: 1,
@@ -68,7 +67,6 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
             for: 'Caregiver'
         },
     ];
-
     const filteredTransactions = useMemo(() => {
         return transactions.filter(transaction => {
             const transactionDate = new Date(transaction.date);
@@ -111,16 +109,14 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
             return totals;
         }, { credit: 0, debit: 0 });
     }, [filteredTransactions]);
-
     const netAmount = totalAmounts.credit - totalAmounts.debit;
-
-
     const handleModal = () => {
         // const originalAddAction = () => {
         setTimeout(() => modalApiRef.current?.open?.(), 0);
         // };
         // requireSecurityCheck(originalAddAction, "Edit");
     };
+    const [accountStatus, setAccountStatus] = useState<string>("active");
 
     return (
         <Fragment>
@@ -143,7 +139,12 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
             <Container size="md" className="py-6">
                 <Box className="flex justify-center mb-8">
                     <Card
-                        className="w-full max-w-md h-64 relative overflow-hidden bg-gradient-to-br from-blue-500 via-blue-600 to-blue-500 dark:from-blue-900 dark:via-blue-700 dark:to-blue-900 border-0 shadow-2xl"
+                        className={`w-full max-w-md h-64 relative overflow-hidden bg-gradient-to-br border-0 shadow-2xl
+                        ${
+                            accountStatus === 'active'
+                            ? 'from-blue-500 via-blue-600 to-blue-500 dark:from-blue-900 dark:via-blue-700 dark:to-blue-900'
+                            : 'from-gray-500 via-gray-600 to-gray-500 dark:from-gray-900 dark:via-gray-700 dark:to-gray-900'
+                        }`}
                         radius="xl"
                         p="xl"
                     >
@@ -155,9 +156,7 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
                         <Stack justify="space-between" className="h-full relative z-10">
                             <Group justify="space-between" align="flex-start">
                                 <Box>
-                                    <Text size="sm" className="text-white/80 font-medium">
-                                        Available Balance
-                                    </Text>
+                                    <Text size="sm" className="text-white/80 font-medium">Available Balance</Text>
                                     <Group align="center" gap="xs">
                                         <Text size="xl" fw={700} className="text-white">
                                             {showBalance ? '$100' : '****'}
@@ -172,34 +171,22 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
                                         </ActionIcon>
                                     </Group>
                                 </Box>
-                                <Text fw={700} className="text-white text-lg">
-                                    SNAH
-                                </Text>
+                                <Text fw={700} className="text-white text-lg">SNAH</Text>
                             </Group>
                             <Box>
-                                <Text fw={600} className="text-white text-lg tracking-wide">
-                                    UC DAVIS MEDICAL FACILITY
-                                </Text>
+                                <Text fw={600} className="text-white text-lg tracking-wide">UC DAVIS MEDICAL FACILITY</Text>
                             </Box>
                             <Group justify="space-between" align="flex-end">
                                 <Box>
                                     <Group align="center" gap="xs">
                                         <IconCreditCard size={16} className="text-white/80" />
-                                        <Text size="sm" className="text-white/80">
-                                            Account Number
-                                        </Text>
+                                        <Text size="sm" className="text-white/80">Account Number</Text>
                                     </Group>
-                                    <Text fw={500} className="text-white font-mono">
-                                        **** **** **** 7995
-                                    </Text>
+                                    <Text fw={500} className="text-white font-mono">**** **** **** 7995</Text>
                                 </Box>
                                 <Box className="text-right">
-                                    <Text size="xs" className="text-white/80">
-                                        Expiration Date
-                                    </Text>
-                                    <Text fw={500} className="text-white">
-                                        10/28
-                                    </Text>
+                                    <Text size="xs" className="text-white/80">Expiration Date</Text>
+                                    <Text fw={500} className="text-white">10/28</Text>
                                 </Box>
                             </Group>
                         </Stack>
@@ -235,6 +222,12 @@ export const MemberWalletDetail = (__props: { dataPass: any }) => {
                                 />
                             </Box>
                             <Button variant="outline" color="blue" onClick={handleModal}>Add Funds</Button>
+                            {accountStatus === "active" && (
+                                <Button variant="light" color="red" onClick={() => setAccountStatus('inactive')}>Freeze Account</Button>
+                            )}
+                            {accountStatus === "inactive" && (
+                                <Button variant="light" color="green" onClick={() => setAccountStatus('active')}>Active Account</Button>
+                            )}
                         </Group>
                     </Stack>
                 </Card>
